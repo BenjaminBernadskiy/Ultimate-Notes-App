@@ -26,7 +26,7 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             pass
     # Clear the screen
-    screen.fill(BLACK)
+    screen.fill((50, 50, 170))
 
     # create notepad and have boxes with titles of notes on it and make them clickable to go into notes
     # screen.blit()
