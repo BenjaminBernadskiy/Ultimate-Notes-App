@@ -43,7 +43,8 @@ while running:
     # load all note names
     title_and_location = []  # Initialize title_and_location as an empty tuple
     ids = []
-    with open("Ultimate-Notes-App\data.txt", 'r') as file:
+    notes = []
+    with open("data.txt", 'r') as file:
         note_titles = []
         x = -1
         for line in file:
@@ -84,18 +85,25 @@ while running:
                     # Append the new tuple to title_and_location
                     title_and_location.append(
                         f'{x}:{id}')
+            notes.append(line.strip())
     i = -1
     heights = []
-    titles = []
+    ids = []
     for tt in title_and_location:
         heights.append(tt.split(':')[0])
-        titles.append(tt.split(':')[1])
+        ids.append(tt.split(':')[1])
+    hovering_id = None
     # check if curser is on one of the boxes and then link it with an id
     for height in heights:
-        if mouse_x >= (WIDTH // 2) - 125 and mouse_x <= (WIDTH // 2) + 80 and mouse_y >= (HEIGHT // 2) + int(height) - 205 and mouse_y <= (HEIGHT // 2) + int(height) - 235:
-            print('e')
-    # for i in range(len(title_and_location)):
-        #print(locations[i], titles[i], str(mouse_x), str(mouse_y))
+        if mouse_x >= (WIDTH // 2) - 125 and mouse_x <= (WIDTH // 2) + 80 and mouse_y >= (HEIGHT // 2) + int(height) - 205 and mouse_y <= (HEIGHT // 2) + int(height) - 175:
+            height_index = heights.index(height)
+            #define the id of the note your hovering over
+            hovering_id = ids[height_index]
+            
+    
+    #make sure that your actually hovering over something
+    if hovering_id != None:
+        screen.blit(font.render(), True, WHITE, ((WIDTH // 2) - 120, (HEIGHT // 2) + i))
     for note in note_titles:
         # i is the amount of space inbetween the different note titles
         i += 40
