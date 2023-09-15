@@ -89,6 +89,14 @@ while running:
     i = -1
     heights = []
     ids = []
+    for note in note_titles:
+        # i is the amount of space inbetween the different note titles
+        i += 40
+        #create boxes around the note names
+        pygame.draw.rect(screen, (245, 245, 220), ((WIDTH // 2) - 125,
+                         (HEIGHT // 2) + i - 205, 205, 30))
+        screen.blit(title_font.render(note, True, BLACK),
+                    ((WIDTH // 2) - 120, (HEIGHT // 2) + i - 200))
     for tt in title_and_location:
         heights.append(tt.split(':')[0])
         ids.append(tt.split(':')[1])
@@ -101,18 +109,12 @@ while running:
             hovering_id = ids[height_index]
     
     if hovering_id:
-        text = font.render(notes[ids.index(hovering_id)], True, WHITE)
+        text = font.render(notes[ids.index(hovering_id)], True, BLACK)
     #make sure that your actually hovering over something
     if hovering_id != None:
-        screen.blit(text, ((WIDTH // 2) - 120, (HEIGHT // 2) + i))
-    for note in note_titles:
-        # i is the amount of space inbetween the different note titles
-        i += 40
-        pygame.draw.rect(screen, (245, 245, 220), ((WIDTH // 2) - 125,
-                         (HEIGHT // 2) + i - 205, 205, 30))
-        screen.blit(title_font.render(note, True, BLACK),
-                    ((WIDTH // 2) - 120, (HEIGHT // 2) + i - 200))
-
+        screen.blit(text, ((WIDTH // 2) - 125, (HEIGHT // 2) + i - 205))
+        pass
+        
     # check if mouse is over one of the boxes
 
     pygame.display.flip()
