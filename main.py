@@ -104,7 +104,6 @@ while running:
         text = font.render(notes[ids.index(hovering_id)], True, WHITE)
     #make sure that your actually hovering over something
     if hovering_id != None:
-        print(ids.index(hovering_id))
         screen.blit(text, ((WIDTH // 2) - 120, (HEIGHT // 2) + i))
     for note in note_titles:
         # i is the amount of space inbetween the different note titles
@@ -125,5 +124,5 @@ sys.exit()
 
 # # # # # # # # # # # # # # # NEXT STEP: create boxes around the titles and make it so that wehn you hover over the boxes it creates a drop down
 # # # # # # # # # # # # # # # showing the title of the note and everything in it and when you take your mouse off it it close again
-# # # # # # # # # # # # # # # NEXT STEP: replace notes with ids so that if they have the same title they can be distinguished
+# # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # #
