@@ -99,11 +99,13 @@ while running:
             height_index = heights.index(height)
             #define the id of the note your hovering over
             hovering_id = ids[height_index]
-            
     
+    if hovering_id:
+        text = font.render(notes[ids.index(hovering_id)], True, WHITE)
     #make sure that your actually hovering over something
     if hovering_id != None:
-        screen.blit(font.render(), True, WHITE, ((WIDTH // 2) - 120, (HEIGHT // 2) + i))
+        print(ids.index(hovering_id))
+        screen.blit(text, ((WIDTH // 2) - 120, (HEIGHT // 2) + i))
     for note in note_titles:
         # i is the amount of space inbetween the different note titles
         i += 40
