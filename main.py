@@ -12,16 +12,17 @@ WIDTH = 800
 HEIGHT = 600
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-FONT_SIZE = 20
 FONT_COLOR = (255, 255, 255)
+open_frame = 0
+open_height = 0
 
 # Create the screen
 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
 pygame.display.set_caption("Ben's Notes App")
 
 # Initialize font
-font = pygame.font.Font(None, FONT_SIZE)
-title_font = pygame.font.Font(None, 35)
+font = pygame.font.Font('Ultimate-Notes-App\Oswald-Medium.ttf', 22)
+title_font = pygame.font.Font('Ultimate-Notes-App\Oswald-Medium.ttf', 27)
 
 running = True
 while running:
@@ -44,7 +45,7 @@ while running:
     title_and_location = []  # Initialize title_and_location as an empty tuple
     ids = []
     notes = []
-    with open("data.txt", 'r') as file:
+    with open("Ultimate-Notes-App\data.txt", 'r') as file:
         note_titles = []
         x = -1
         for line in file:
@@ -92,11 +93,11 @@ while running:
     for note in note_titles:
         # i is the amount of space inbetween the different note titles
         i += 40
-        #create boxes around the note names
-        pygame.draw.rect(screen, (245, 245, 220), ((WIDTH // 2) - 125,
+        # create boxes around the note names
+        pygame.draw.rect(screen, (255, 240, 200), ((WIDTH // 2) - 125,
                          (HEIGHT // 2) + i - 205, 205, 30))
         screen.blit(title_font.render(note, True, BLACK),
-                    ((WIDTH // 2) - 120, (HEIGHT // 2) + i - 200))
+                    ((WIDTH // 2) - 120, (HEIGHT // 2) + i - 210))
     for tt in title_and_location:
         heights.append(tt.split(':')[0])
         ids.append(tt.split(':')[1])
@@ -105,18 +106,76 @@ while running:
     for height in heights:
         if mouse_x >= (WIDTH // 2) - 125 and mouse_x <= (WIDTH // 2) + 80 and mouse_y >= (HEIGHT // 2) + int(height) - 205 and mouse_y <= (HEIGHT // 2) + int(height) - 175:
             height_index = heights.index(height)
-            #define the id of the note your hovering over
+            # define the id of the note your hovering over
             hovering_id = ids[height_index]
-    
-    if hovering_id:
-        text = font.render(notes[ids.index(hovering_id)], True, BLACK)
-    #make sure that your actually hovering over something
-    if hovering_id != None:
-        screen.blit(text, ((WIDTH // 2) - 125, (HEIGHT // 2) + i - 205))
-        pass
-        
-    # check if mouse is over one of the boxes
+            pygame.draw.rect(screen, (WHITE), ((WIDTH // 2) - 125,
+                                               (HEIGHT // 2) + int(height) - 205, 205, 30))
 
+    # if hovering_id:
+        # opened_text = title_font.render(
+        #    notes[ids.index(hovering_id)], True, BLACK)
+        # opened_text = ids.index(hovering_id)
+    # make sure that your actually hovering over something
+    if hovering_id != None:
+        opening = True
+        openingid = hovering_id
+        pass
+    else:
+        opening = False
+
+    if opening:
+        # create drop down menu to show the notes under the button
+        # open frame is x open height is y in a quadratic equation
+        open_frame += 1
+        if open_frame <= 60:
+            open_height += .9
+        elif open_frame <= 80:
+            open_height += .8
+        elif open_frame <= 100:
+            open_height += .7
+        elif open_frame <= 120:
+            open_height += .6
+        elif open_frame <= 140:
+            open_height += .5
+        elif open_frame <= 160:
+            open_height += .4
+        elif open_frame <= 180:
+            open_height += .3
+        elif open_frame <= 200:
+            open_height += .2
+        elif open_frame <= 240:
+            open_height += .1
+
+        # for every frame in the opening of the note drop down
+        for height in heights:
+            if mouse_x >= (WIDTH // 2) - 125 and mouse_x <= (WIDTH // 2) + 80 and mouse_y >= (HEIGHT // 2) + int(height) - 205 and mouse_y <= (HEIGHT // 2) + int(height) - 175:
+                pygame.draw.rect(screen, (191, 144, 0), ((
+                    WIDTH // 2) - 125, (HEIGHT // 2) + int(height) - 205, 205, 30 + open_height))
+                pygame.draw.rect(screen, (255, 240, 200), ((WIDTH // 2) - 125,
+                                                           (HEIGHT // 2) + int(height) - 205, 205, 30))
+                if notes[ids.index(hovering_id)].__contains__('((('):
+                    title_text = notes[ids.index(hovering_id)].split(')))')[
+                        0][3:]
+                else:
+                    if len(notes[ids.index(hovering_id)]) > 20:
+                        title_text = notes[ids.index(
+                            hovering_id)][0:15] + '...'
+                    else:
+                        title_text = notes[ids.index(hovering_id)]
+                # cretae drop down titles
+                screen.blit(title_font.render(title_text, True, BLACK),
+                            ((WIDTH // 2) - 120, (HEIGHT // 2) + int(height) - 210))
+                # create the notes in the drop downs
+                if notes[ids.index(hovering_id)].__contains__('((('):
+                    screen.blit(font.render(notes[ids.index(hovering_id)].split(')))')[
+                        1], True, BLACK), ((WIDTH // 2) - 120, (HEIGHT // 2) + int(height) - 100))
+                else:
+                    screen.blit(font.render(notes[ids.index(hovering_id)], True, BLACK), ((
+                        WIDTH // 2) - 120, (HEIGHT // 2) + int(height) - 100))
+
+    else:
+        open_height = 0
+        open_frame = 0
     pygame.display.flip()
 
 # Quit Pygame
