@@ -54,7 +54,11 @@ while running:
             # This will print each line without the trailing newline character
             # if there is a ((())) that means there is an assigned title; otherwise, just use the notes
             if line.strip().__contains__('((('):
-                note_titles.append(line.strip().split(')))')[0][3:])
+                if len(line.strip().split(')))')[0][3:]) < 20:
+                    note_titles.append(line.strip().split(')))')[0][3:])
+                else:
+                    note_titles.append(line.strip().split(')))')[
+                                       0][3:17] + '...')
                 # create id for each note
                 id = ''
                 for i in range(10):
@@ -67,7 +71,7 @@ while running:
                     f'{x}:{id}')
             else:
                 if len(line.strip()) > 20:
-                    note_titles.append(line.strip()[0:15] + '...')
+                    note_titles.append(line.strip()[0:17] + '...')
                     # create id for each note
                     id = ''
                     for i in range(10):
@@ -154,24 +158,29 @@ while running:
                 pygame.draw.rect(screen, (255, 240, 200), ((WIDTH // 2) - 125,
                                                            (HEIGHT // 2) + int(height) - 205, 205, 30))
                 if notes[ids.index(hovering_id)].__contains__('((('):
-                    title_text = notes[ids.index(hovering_id)].split(')))')[
-                        0][3:]
+                    if len(notes[ids.index(hovering_id)].split(')))')[0][3:]) < 20:
+                        title_text = notes[ids.index(hovering_id)].split(')))')[
+                            0][3:]
+                    else:
+                        title_text = notes[ids.index(hovering_id)].split(')))')[
+                            0][3:17] + '...'
                 else:
                     if len(notes[ids.index(hovering_id)]) > 20:
                         title_text = notes[ids.index(
-                            hovering_id)][0:15] + '...'
+                            hovering_id)][0:17] + '...'
                     else:
                         title_text = notes[ids.index(hovering_id)]
-                # cretae drop down titles
+                # create drop down titles
                 screen.blit(title_font.render(title_text, True, BLACK),
                             ((WIDTH // 2) - 120, (HEIGHT // 2) + int(height) - 210))
                 # create the notes in the drop downs
-                if notes[ids.index(hovering_id)].__contains__('((('):
-                    screen.blit(font.render(notes[ids.index(hovering_id)].split(')))')[
-                        1], True, BLACK), ((WIDTH // 2) - 120, (HEIGHT // 2) + int(height) - 100))
-                else:
-                    screen.blit(font.render(notes[ids.index(hovering_id)], True, BLACK), ((
-                        WIDTH // 2) - 120, (HEIGHT // 2) + int(height) - 100))
+                if open_frame >= 240:  # check to make sure the drop down has completed
+                    if notes[ids.index(hovering_id)].__contains__('((('):
+                        screen.blit(font.render(notes[ids.index(hovering_id)].split(')))')[
+                            1], True, BLACK), ((WIDTH // 2) - 120, (HEIGHT // 2) + int(height) - 100))
+                    else:
+                        screen.blit(font.render(notes[ids.index(hovering_id)], True, BLACK), ((
+                            WIDTH // 2) - 120, (HEIGHT // 2) + int(height) - 100))
 
     else:
         open_height = 0
